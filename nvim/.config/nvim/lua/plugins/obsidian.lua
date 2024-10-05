@@ -22,12 +22,8 @@ return {
         path = "~/Documents/Obsidian Vault/personal",
       },
       {
-        name = "sim",
-        path = "~/Documents/Obsidian Vault/sim",
-      },
-      {
-        name = "capicua",
-        path = "~/Documents/Obsidian Vault/capicua",
+        name = "work",
+        path = "~/Documents/Obsidian Vault/work",
       },
     },
     completion = {
