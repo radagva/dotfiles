@@ -1,6 +1,6 @@
 vim.wo.number = true
 vim.o.relativenumber = true
-vim.o.clipboard = 'unnamedplus'
+vim.o.clipboard = "unnamedplus"
 vim.o.wrap = true
 vim.o.linebreak = true
 vim.o.autoindent = true
@@ -11,4 +11,4 @@ vim.o.softtabstop = 4
 vim.o.expandtab = true
 vim.o.splitbelow = true
 vim.o.splitright = true
-vim.o.hlsearch = false
+-- vim.o.hlsearch = false
