@@ -45,3 +45,5 @@ map('n', '[d', vim.diagnostic.goto_prev, {desc = "go to prev diagnosis"})
 map('n', ']d', vim.diagnostic.goto_next, {desc = "go to next diagnosis"})
 map('n', ']d', vim.diagnostic.open_float, {desc = "Open floating diagnosis message"})
 map('n', ']d', vim.diagnostic.setloclist, {desc = "Open diagnosis list"})
+
+map('n', '<leader>bd', '<cmd>bdelete<CR>', {desc = "Delete current buffer"})
