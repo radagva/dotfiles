@@ -10,6 +10,7 @@ return {
 				-- Conform will run multiple formatters sequentially
 				python = { "isort", "black" },
 				javascript = { "prettierd", "prettier", stop_after_first = true },
+				typescript = { "prettierd", "prettier", stop_after_first = true },
 			},
 			format_on_save = {
 				lsp_fallback = true,

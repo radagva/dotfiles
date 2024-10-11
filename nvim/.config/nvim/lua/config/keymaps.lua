@@ -7,7 +7,7 @@ vim.g.maplocalleader = " "
 map({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- save file with ctrl + s
-map({ "n", "i" }, "<C-s>", "<cmd> w <CR>", opts)
+map({ "n", "i" }, "<C-s>", "<cmd>w<CR><Esc>", opts)
 
 -- for better copying and pasting
 map("n", "x", '"_x', opts)
@@ -47,7 +47,3 @@ map("n", "]dl", vim.diagnostic.setloclist, { desc = "Open diagnosis list" })
 
 -- buffers
 map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete current buffer" })
-
--- initials
-map("n", "<leader>u", "<Nop>", { desc = "UI Options" })
-map("n", "<leader>ub", "<Nop>", { desc = "Background options" })
