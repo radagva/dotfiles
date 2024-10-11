@@ -2,11 +2,13 @@ return {
 	"echasnovski/mini.nvim",
 	version = false,
 	config = function()
+		local map = vim.keymap.set
+
 		require("mini.ai").setup()
-		require("mini.surround").setup()
 		require("mini.surround").setup()
 		require("mini.bracketed").setup()
 		require("mini.diff").setup()
+
 		local hipatterns = require("mini.hipatterns")
 		hipatterns.setup({
 			highlighters = {
