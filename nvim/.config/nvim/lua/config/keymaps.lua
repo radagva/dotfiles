@@ -42,8 +42,8 @@ map("v", ">", ">gv", opts)
 -- for diagnosis
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "go to prev diagnosis" })
 map("n", "]d", vim.diagnostic.goto_next, { desc = "go to next diagnosis" })
-map("n", "]d", vim.diagnostic.open_float, { desc = "Open floating diagnosis message" })
-map("n", "]d", vim.diagnostic.setloclist, { desc = "Open diagnosis list" })
+map("n", "]do", vim.diagnostic.open_float, { desc = "Open floating diagnosis message" })
+map("n", "]dl", vim.diagnostic.setloclist, { desc = "Open diagnosis list" })
 
 -- buffers
 map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete current buffer" })
@@ -51,7 +51,3 @@ map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete current buffer" })
 -- initials
 map("n", "<leader>u", "<Nop>", { desc = "UI Options" })
 map("n", "<leader>ub", "<Nop>", { desc = "Background options" })
-
-vim.keymap.set("n", "<Esc>", function()
-	vim.cmd("noh")
-end, { silent = true, noremap = true })

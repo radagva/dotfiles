@@ -36,6 +36,10 @@ return {
 		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
 
 		cmp.setup({
+			window = {
+				completion = cmp.config.window.bordered(),
+				documentation = cmp.config.window.bordered(),
+			},
 			max_item_count = 10,
 			mapping = {
 				["<C-d>"] = cmp.mapping.scroll_docs(-4),
