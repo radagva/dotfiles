@@ -27,6 +27,7 @@ return {
 			"gitignore",
 			"graphql",
 			"tsx",
+			"angular",
 		},
 		auto_install = true,
 		highlight = {

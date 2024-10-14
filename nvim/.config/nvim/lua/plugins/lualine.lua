@@ -10,6 +10,8 @@ return {
 			disabled_filetypes = {
 				"Neotree",
 				"dashboard",
+				"dbout",
+				"dbui",
 				statusline = {},
 				winbar = {},
 			},

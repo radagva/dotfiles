@@ -36,10 +36,6 @@ return {
 		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
 
 		cmp.setup({
-			window = {
-				completion = cmp.config.window.bordered(),
-				documentation = cmp.config.window.bordered(),
-			},
 			max_item_count = 10,
 			mapping = {
 				["<C-d>"] = cmp.mapping.scroll_docs(-4),
@@ -63,7 +59,7 @@ return {
 					end
 				end, { "i", "s" }),
 				["<C-p>"] = cmp.mapping.select_prev_item(),
-				["<C-y>"] = cmp.mapping.confirm({
+				["<CR>"] = cmp.mapping.confirm({
 					behavior = cmp.ConfirmBehavior.Insert,
 					select = true,
 				}),
@@ -117,8 +113,13 @@ return {
 			sorting = {
 				priority_weight = 2,
 				comparators = {
-					compare.kind,
-					compare.sort_text,
+					compare.locality,
+					compare.recently_used,
+					compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+					compare.offset,
+					compare.order,
+					-- compare.kind,
+					-- compare.sort_text,
 				},
 			},
 
