@@ -1,5 +1,5 @@
 local spread = require("config.utils").spread
-vtsls = require("lsp.vtsls")
+local vtsls = require("lsp.vtsls")
 
 local servers = {
 	ruff = {},
