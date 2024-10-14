@@ -66,26 +66,26 @@ return {
 				["<c-space>"] = cmp.mapping.complete(),
 			},
 			sources = {
-				{ name = "nvim_lua" },
+				-- { name = "nvim_lua" },
 				{ name = "nvim_lsp" },
 				{ name = "path" },
-				{ name = "luasnip" },
+				-- { name = "luasnip" },
 				{ name = "copilot" },
 				{
 					name = "buffer",
-					keyword_length = 4,
-					option = {
-						get_bufnrs = function()
-							local bufs = {}
-							for _, win in ipairs(vim.api.nvim_list_wins()) do
-								local bufnr = vim.api.nvim_win_get_buf(win)
-								if vim.api.nvim_buf_get_option(bufnr, "buftype") ~= "terminal" then
-									bufs[bufnr] = true
-								end
-							end
-							return vim.tbl_keys(bufs)
-						end,
-					},
+					-- keyword_length = 4,
+					-- option = {
+					-- 	get_bufnrs = function()
+					-- 		local bufs = {}
+					-- 		for _, win in ipairs(vim.api.nvim_list_wins()) do
+					-- 			local bufnr = vim.api.nvim_win_get_buf(win)
+					-- 			if vim.api.nvim_buf_get_option(bufnr, "buftype") ~= "terminal" then
+					-- 				bufs[bufnr] = true
+					-- 			end
+					-- 		end
+					-- 		return vim.tbl_keys(bufs)
+					-- 	end,
+					-- },
 				},
 			},
 
@@ -94,21 +94,81 @@ return {
 					require("luasnip").lsp_expand(args.body)
 				end,
 			},
-
 			formatting = {
-				format = lspkind.cmp_format({
-					with_text = true,
-					menu = {
-						buffer = "[buf]",
-						nvim_lsp = "[ ]",
-						nvim_lua = "[api]",
-						path = "[path]",
-						luasnip = "[snip]",
-						copilot = "[ﮧ ]",
-						["vim-dadbod-completion"] = "[DB]",
-					},
-				}),
+				format = function(entry, item)
+					local kind_icons = {
+						Array = " ",
+						Boolean = "󰨙 ",
+						Class = " ",
+						Codeium = "󰘦 ",
+						Color = " ",
+						Control = " ",
+						Collapsed = " ",
+						Constant = "󰏿 ",
+						Constructor = " ",
+						Copilot = " ",
+						Enum = " ",
+						EnumMember = " ",
+						Event = " ",
+						Field = " ",
+						File = " ",
+						Folder = " ",
+						Function = "󰊕 ",
+						Interface = " ",
+						Key = " ",
+						Keyword = " ",
+						Method = "󰊕 ",
+						Module = " ",
+						Namespace = "󰦮 ",
+						Null = " ",
+						Number = "󰎠 ",
+						Object = " ",
+						Operator = " ",
+						Package = " ",
+						Property = " ",
+						Reference = " ",
+						Snippet = "",
+						String = " ",
+						Struct = "󰆼 ",
+						TabNine = "󰏚 ",
+						Text = " ",
+						TypeParameter = " ",
+						Unit = " ",
+						Value = " ",
+						Variable = "󰀫 ",
+					}
+					if kind_icons[item.kind] then
+						item.kind = kind_icons[item.kind] .. item.kind
+					end
+
+					local widths = {
+						abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+						menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+					}
+
+					for key, width in pairs(widths) do
+						if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
+							item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
+						end
+					end
+
+					return item
+				end,
 			},
+			-- formatting = {
+			-- 	format = lspkind.cmp_format({
+			-- 		with_text = true,
+			-- 		menu = {
+			-- 			buffer = "[buf]",
+			-- 			nvim_lsp = "[ ]",
+			-- 			nvim_lua = "[api]",
+			-- 			path = "[path]",
+			-- 			luasnip = "[snip]",
+			-- 			copilot = "[ﮧ ]",
+			-- 			["vim-dadbod-completion"] = "[DB]",
+			-- 		},
+			-- 	}),
+			-- },
 
 			sorting = {
 				priority_weight = 2,

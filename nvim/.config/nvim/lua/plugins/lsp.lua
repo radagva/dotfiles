@@ -1,3 +1,6 @@
+local spread = require("config.utils").spread
+vtsls = require("lsp.vtsls")
+
 local servers = {
 	ruff = {},
 	pylsp = {
@@ -17,7 +20,7 @@ local servers = {
 		},
 	},
 	html = { filetypes = { "html", "twig", "hbs" } },
-	ts_ls = {},
+	vtsls = vtsls,
 	cssls = {},
 	tailwindcss = {},
 	dockerls = {},
@@ -74,7 +77,12 @@ return {
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+			require("mason-tool-installer").setup({
+				ensure_installed = vim.tbl_keys(spread(servers)({
+					prettier = {},
+					eslint_d = {},
+				})),
+			})
 
 			require("mason-lspconfig").setup({
 				ensure_installed = ensure_installed,
