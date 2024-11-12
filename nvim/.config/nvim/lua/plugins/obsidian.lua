@@ -40,6 +40,7 @@ return {
     },
     mappings = {
       -- "Obsidian follow"
+
       ["<leader>of"] = {
         action = function()
           return require("obsidian").util.gf_passthrough()

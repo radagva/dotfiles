@@ -110,6 +110,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+
 # alias scripts
 alias generate-secret="openssl rand -base64 32"
 
@@ -121,7 +123,7 @@ alias check-port='f() { lsof -i tcp:$1 };f'
 alias upload='f() { curl bashupload.com -T $1 };f'
 
 # for live reload GO projects
-# alias air='$(go env GOPATH)/bin/air'
+alias air='$(go env GOPATH)/bin/air'
 
 # Android CLI
 export ANDROID_HOME=/Users/$USER/Library/Android/sdk
