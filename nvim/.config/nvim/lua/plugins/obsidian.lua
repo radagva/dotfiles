@@ -21,10 +21,6 @@ return {
         name = "personal",
         path = "~/Documents/Obsidian Vault/personal",
       },
-      {
-        name = "work",
-        path = "~/Documents/Obsidian Vault/work",
-      },
     },
     completion = {
       nvim_cmp = true,
@@ -39,29 +35,29 @@ return {
       template = "note",
     },
     mappings = {
-      -- "Obsidian follow"
+      -- vim.keymap.set("n", "<leader>Oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick Switch" })
 
-      ["<leader>of"] = {
+      ["<leader>Of"] = {
         action = function()
           return require("obsidian").util.gf_passthrough()
         end,
         opts = { noremap = false, expr = true, buffer = true },
       },
       -- Toggle check-boxes "obsidian done"
-      ["<leader>od"] = {
+      ["<leader>Od"] = {
         action = function()
           return require("obsidian").util.toggle_checkbox()
         end,
         opts = { buffer = true },
       },
       -- Create a new newsletter issue
-      ["<leader>onn"] = {
+      ["<leader>Onn"] = {
         action = function()
           return require("obsidian").commands.new_note("Newsletter-Issue")
         end,
         opts = { buffer = true },
       },
-      ["<leader>ont"] = {
+      ["<leader>Ont"] = {
         action = function()
           return require("obsidian").util.insert_template("Newsletter-Issue")
         end,
