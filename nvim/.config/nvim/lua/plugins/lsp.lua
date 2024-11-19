@@ -2,20 +2,15 @@ local spread = require("config.utils").spread
 local vtsls = require("lsp.vtsls")
 local angularls = require("lsp.angularls")
 local lua_ls = require("lsp.lua_ls")
-local pylsp = require("lsp.pylsp")
+-- local pylsp = require("lsp.pylsp")
 local html = require("lsp.html")
 
 local servers = {
-	pylsp = pylsp,
 	html = html,
 	vtsls = vtsls,
 	angularls = angularls,
 	lua_ls = lua_ls,
-	ruff = {},
 	cssls = {},
-	tailwindcss = {},
-	dockerls = {},
-	sqlls = {},
 	emmet_ls = {},
 	jsonls = {},
 	yamlls = {},
@@ -24,117 +19,58 @@ local servers = {
 local ensure_installed = vim.tbl_keys(servers or {})
 
 return {
-	{
-		"williamboman/mason.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		priority = 999,
-		config = function()
-			-- LSP servers and clients are able to communicate to each other what features they support.
-			--  By default, Neovim doesn't support everything that is in the LSP specification.
-			--  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-			--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
-			require("mason-tool-installer").setup({
-				ensure_installed = vim.tbl_keys(spread(servers)({
-					prettier = {},
-					eslint_d = {},
-				})),
-			})
-
-			require("mason-lspconfig").setup({
-				ensure_installed = ensure_installed,
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-
-						local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-
-						function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-							opts = opts or {}
-
-							local border = {
-								{ "🭽", "FloatBorder" },
-								{ "▔", "FloatBorder" },
-								{ "🭾", "FloatBorder" },
-								{ "▕", "FloatBorder" },
-								{ "🭿", "FloatBorder" },
-								{ "▁", "FloatBorder" },
-								{ "🭼", "FloatBorder" },
-								{ "▏", "FloatBorder" },
-							}
-
-							opts.border = opts.border or border
-							return orig_util_open_floating_preview(contents, syntax, opts, ...)
-						end
-
-						require("lspconfig")[server_name].setup(server)
-					end,
-				},
-			})
-		end,
-	},
+  {
+    "williamboman/mason.nvim",
+    lazy = false,
+    priority = 1000,
+    config = true,
+  },
 	{
 		"neovim/nvim-lspconfig",
-		priority = 998,
 		dependencies = {
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
-
-			{ "j-hui/fidget.nvim", opts = {} },
-			"hrsh7th/cmp-nvim-lsp",
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "folke/lazydev.nvim",
 		},
 		config = function()
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
-				callback = function(event)
-					local map = function(keys, func, desc, mode)
-						mode = mode or "n"
-						vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-					end
+      local lspconfig = require('lspconfig')
 
-					local source_actions = function()
-						vim.lsp.buf.code_action({
-							apply = true,
-							context = {
-								only = { "source" },
-								diagnostics = {},
-							},
-						})
-					end
 
-					local toggle_inlay_hints = function()
-						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-					end
+      for _, value in ipairs(ensure_installed) do
+        local server = servers[value]
 
-					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-					map(
-						"<leader>ws",
-						require("telescope.builtin").lsp_dynamic_workspace_symbols,
-						"[W]orkspace [S]ymbols"
-					)
-					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
-					map("<leader>cA", source_actions, "Source Actions", { "n", "x" })
-					map("<leader>th", toggle_inlay_hints, "[T]oggle Inlay [H]ints")
-				end,
-			})
+        local on_attach = function (_, bufnr)
+          local opts = spread({ noremap = true, silent = true, buffer = bufnr })
+
+          local map = vim.keymap.set
+
+          -- For help
+          map('n', 'K', vim.lsp.buf.hover)
+          -- for diagnosis
+          map("n", "[d", vim.diagnostic.goto_prev, opts({ silent = false, desc = "go to prev diagnosis" }))
+          map("n", "]d", vim.diagnostic.goto_next, opts({ silent = false, desc = "go to next diagnosis" }))
+          -- map("n", "]do", vim.diagnostic.open_float, opts({ silent = false, desc = "Open floating diagnosis message" }))
+          -- map("n", "]dl", vim.diagnostic.setloclist, opts({ silent = false, desc = "Open diagnosis list" }))
+
+          map('n', 'gd', vim.lsp.buf.definition, opts {})
+          map('n', 'gD', vim.lsp.buf.declaration, opts {})
+          map('n', 'gi', vim.lsp.buf.implementation, opts {})
+          map('n', '<leader>ca', vim.lsp.buf.code_action, opts {})
+          map('n', 'gr', vim.lsp.buf.references, opts {})
+
+          server.on_attach(_, bufnr)
+        end
+
+        lspconfig[value].setup(spread(server) {
+          on_attach = on_attach,
+        })
+      end
+
 
 			vim.filetype.add({
 				pattern = {
 					[".*%.component%.html"] = "htmlangular", -- Sets the filetype to `htmlangular` if it matches the pattern
+					-- [".*%.component%.css"] = "cssangular", -- Sets the filetype to `htmlangular` if it matches the pattern
 				},
 			})
 		end,

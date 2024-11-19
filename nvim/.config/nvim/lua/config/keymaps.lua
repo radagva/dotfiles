@@ -40,12 +40,6 @@ map("n", "<C-l>", ":wincmd l<CR>", opts({}))
 map("v", "<", "<gv", opts({}))
 map("v", ">", ">gv", opts({}))
 
--- for diagnosis
-map("n", "[d", vim.diagnostic.goto_prev, opts({ silent = false, desc = "go to prev diagnosis" }))
-map("n", "]d", vim.diagnostic.goto_next, opts({ silent = false, desc = "go to next diagnosis" }))
-map("n", "]do", vim.diagnostic.open_float, opts({ silent = false, desc = "Open floating diagnosis message" }))
-map("n", "]dl", vim.diagnostic.setloclist, opts({ silent = false, desc = "Open diagnosis list" }))
-
 -- buffers
 map("n", "<leader>bd", "<cmd>bdelete<CR>", opts({ desc = "Delete current buffer" }))
 map("n", "<S-l>", "<cmd>bnext<CR>", opts({ desc = "Go to next buffer" }))

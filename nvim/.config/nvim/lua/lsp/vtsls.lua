@@ -1,6 +1,11 @@
+local on_attach = function(_, _)
+end
+
+
 return {
 	-- explicitly add default filetypes, so that we can extend
 	-- them in related extras
+  on_attach = on_attach,
 	filetypes = {
 		"javascript",
 		"javascriptreact",
@@ -35,41 +40,4 @@ return {
 			},
 		},
 	},
-	-- keys = {
-	-- 	{
-	-- 		"<leader>cM",
-	-- 		-- vim.lsp.action["source.addMissingImports.ts"],
-	-- 		function()
-	-- 			vim.lsp.buf.execute_command({
-	-- 				command = "_typescript.addMissingImports",
-	-- 				arguments = { vim.uri_from_bufnr(0) },
-	-- 			})
-	-- 		end,
-	-- 		desc = "Add missing imports",
-	-- 	},
-	-- 	{
-	-- 		"<leader>cu",
-	-- 		-- vim.lsp.action["source.removeUnused.ts"],
-	-- 		function()
-	-- 			vim.lsp.buf.execute_command({
-	-- 				command = "_typescript.removeUnused",
-	-- 				arguments = { vim.uri_from_bufnr(0) },
-	-- 			})
-	-- 		end,
-	-- 		desc = "Remove unused imports",
-	-- 	},
-	-- },
-	-- on_attach = function(_, bfrn)
-	-- 	local map = vim.keymap.set
-	--
-	-- 	local organize_imports = function()
-	-- 		vim.lsp.buf.execute_command({
-	-- 			command = "typescript.organizeImports",
-	-- 			arguments = { buffer = bfrn },
-	-- 		})
-	-- 		-- require("vtsls").commands["organize_imports"](bfrn)
-	-- 	end
-	--
-	-- 	map("n", "<leader>co", organize_imports, { desc = "Organize Imports", noremap = true, silent = false })
-	-- end,
 }

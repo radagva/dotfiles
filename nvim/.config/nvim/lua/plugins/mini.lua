@@ -6,7 +6,7 @@ return {
 
 		require("mini.ai").setup()
 		require("mini.surround").setup()
-		require("mini.bracketed").setup()
+		-- require("mini.bracketed").setup()
 		require("mini.diff").setup()
 		require("mini.cursorword").setup()
 
