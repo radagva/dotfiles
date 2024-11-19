@@ -1,58 +1,24 @@
 local spread = require("config.utils").spread
 local vtsls = require("lsp.vtsls")
+local angularls = require("lsp.angularls")
+local lua_ls = require("lsp.lua_ls")
+local pylsp = require("lsp.pylsp")
+local html = require("lsp.html")
 
 local servers = {
-	ruff = {},
-	pylsp = {
-		settings = {
-			pylsp = {
-				plugins = {
-					pyflakes = { enabled = false },
-					pycodestyle = { enabled = false },
-					autopep8 = { enabled = false },
-					yapf = { enabled = false },
-					mccabe = { enabled = false },
-					pylsp_mypy = { enabled = false },
-					pylsp_black = { enabled = false },
-					pylsp_isort = { enabled = false },
-				},
-			},
-		},
-	},
-	html = { filetypes = { "html", "twig", "hbs" } },
+	pylsp = pylsp,
+	html = html,
 	vtsls = vtsls,
+	angularls = angularls,
+	lua_ls = lua_ls,
+	ruff = {},
 	cssls = {},
 	tailwindcss = {},
 	dockerls = {},
 	sqlls = {},
 	emmet_ls = {},
-	angularls = {
-		filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx", "htmlangular" },
-	},
 	jsonls = {},
 	yamlls = {},
-
-	lua_ls = {
-		settings = {
-			Lua = {
-				completion = {
-					callSnippet = "Replace",
-				},
-				runtime = { version = "LuaJIT" },
-				workspace = {
-					checkThirdParty = false,
-					library = {
-						"${3rd}/luv/library",
-						unpack(vim.api.nvim_get_runtime_file("", true)),
-					},
-				},
-				diagnostics = { disable = { "missing-fields" } },
-				format = {
-					enable = false,
-				},
-			},
-		},
-	},
 }
 
 local ensure_installed = vim.tbl_keys(servers or {})
