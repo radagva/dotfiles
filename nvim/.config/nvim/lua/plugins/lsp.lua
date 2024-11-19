@@ -19,53 +19,66 @@ local servers = {
 local ensure_installed = vim.tbl_keys(servers or {})
 
 return {
-  {
-    "williamboman/mason.nvim",
-    lazy = false,
-    priority = 1000,
-    config = true,
-  },
+	{
+		"williamboman/mason.nvim",
+		lazy = false,
+		priority = 1000,
+		config = true,
+	},
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "folke/lazydev.nvim",
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"folke/lazydev.nvim",
 		},
 		config = function()
-      local lspconfig = require('lspconfig')
+			local lspconfig = require("lspconfig")
 
+			local border = {
+				{ "🭽", "FloatBorder" },
+				{ "▔", "FloatBorder" },
+				{ "🭾", "FloatBorder" },
+				{ "▕", "FloatBorder" },
+				{ "🭿", "FloatBorder" },
+				{ "▁", "FloatBorder" },
+				{ "🭼", "FloatBorder" },
+				{ "▏", "FloatBorder" },
+			}
 
-      for _, value in ipairs(ensure_installed) do
-        local server = servers[value]
+			-- LSP settings (for overriding per client)
+			local handlers = {
+				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+			}
 
-        local on_attach = function (_, bufnr)
-          local opts = spread({ noremap = true, silent = true, buffer = bufnr })
+			for _, value in ipairs(ensure_installed) do
+				local server = servers[value]
 
-          local map = vim.keymap.set
+				local on_attach = function(_, bufnr)
+					local opts = spread({ noremap = true, silent = true, buffer = bufnr })
 
-          -- For help
-          map('n', 'K', vim.lsp.buf.hover)
-          -- for diagnosis
-          map("n", "[d", vim.diagnostic.goto_prev, opts({ silent = false, desc = "go to prev diagnosis" }))
-          map("n", "]d", vim.diagnostic.goto_next, opts({ silent = false, desc = "go to next diagnosis" }))
-          -- map("n", "]do", vim.diagnostic.open_float, opts({ silent = false, desc = "Open floating diagnosis message" }))
-          -- map("n", "]dl", vim.diagnostic.setloclist, opts({ silent = false, desc = "Open diagnosis list" }))
+					local map = vim.keymap.set
 
-          map('n', 'gd', vim.lsp.buf.definition, opts {})
-          map('n', 'gD', vim.lsp.buf.declaration, opts {})
-          map('n', 'gi', vim.lsp.buf.implementation, opts {})
-          map('n', '<leader>ca', vim.lsp.buf.code_action, opts {})
-          map('n', 'gr', vim.lsp.buf.references, opts {})
+					-- For help
+					map("n", "K", vim.lsp.buf.hover)
+					-- for diagnosis
+					map("n", "[d", vim.diagnostic.goto_prev, opts({ silent = false, desc = "go to prev diagnosis" }))
+					map("n", "]d", vim.diagnostic.goto_next, opts({ silent = false, desc = "go to next diagnosis" }))
+					map("n", "gd", vim.lsp.buf.definition, opts({}))
+					map("n", "gD", vim.lsp.buf.declaration, opts({}))
+					map("n", "gi", vim.lsp.buf.implementation, opts({}))
+					map("n", "<leader>ca", vim.lsp.buf.code_action, opts({}))
+					map("n", "gr", vim.lsp.buf.references, opts({}))
 
-          server.on_attach(_, bufnr)
-        end
+					server.on_attach(_, bufnr)
+				end
 
-        lspconfig[value].setup(spread(server) {
-          on_attach = on_attach,
-        })
-      end
-
+				lspconfig[value].setup(spread(server)({
+					on_attach = on_attach,
+					handlers = handlers,
+				}))
+			end
 
 			vim.filetype.add({
 				pattern = {
@@ -74,5 +87,17 @@ return {
 				},
 			})
 		end,
+	},
+	{
+		"j-hui/fidget.nvim",
+		-- tag = "legacy",
+		opts = {
+			notification = {
+				window = {
+					winblend = 0, -- note: not winblend!
+					relative = "editor",
+				},
+			},
+		},
 	},
 }
