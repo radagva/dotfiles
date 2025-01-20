@@ -154,3 +154,21 @@ source <(ng completion script)
 
 export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"
 export PATH="/opt/homebrew/lib/ruby/gems/3.1.0/bin:$PATH"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+. "$HOME/.local/bin/env"
+
+export PATH=$PATH:/Users/radagv/.spicetify
+export DYLD_FRAMEWORK_PATH=/Library/Frameworks
