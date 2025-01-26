@@ -25,3 +25,5 @@ vim.keymap.set("n", "<leader>Ol", "<cmd>ObsidianLinks<CR>", { desc = "Show Obsid
 vim.keymap.set("n", "<leader>On", "<cmd>ObsidianNew<CR>", { desc = "Create New Note" })
 vim.keymap.set("n", "<leader>Os", "<cmd>ObsidianSearch<CR>", { desc = "Search Obsidian" })
 vim.keymap.set("n", "<leader>by", "<cmd>Cppath<CR>", { desc = "Copy current buffer path" })
+vim.keymap.set("n", "<leader>ute", "<cmd>TwilightEnable<CR>", { desc = "Turn twilight on", noremap = true })
+vim.keymap.set("n", "<leader>utd", "<cmd>TwilightDisable<CR>", { desc = "Turn twilight off", noremap = true })
