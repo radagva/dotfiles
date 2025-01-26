@@ -2,7 +2,6 @@ local spread = require("config.utils").spread
 local vtsls = require("lsp.vtsls")
 local angularls = require("lsp.angularls")
 local lua_ls = require("lsp.lua_ls")
--- local pylsp = require("lsp.pylsp")
 local html = require("lsp.html")
 
 local servers = {
@@ -71,7 +70,9 @@ return {
 					map("n", "<leader>ca", vim.lsp.buf.code_action, opts({}))
 					map("n", "gr", vim.lsp.buf.references, opts({}))
 
-					server.on_attach(_, bufnr)
+					if server.on_attach then
+						server.on_attach(_, bufnr)
+					end
 				end
 
 				lspconfig[value].setup(spread(server)({
