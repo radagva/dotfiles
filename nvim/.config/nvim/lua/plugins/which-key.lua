@@ -28,6 +28,13 @@ return {
 			desc = "Open lazygit",
 		},
 		{
+			"<leader>gb",
+			function()
+				Snacks.git.blame_line()
+			end,
+			desc = "Git Blame Line",
+		},
+		{
 			"<leader>ocp",
 			function()
 				require("minty.huefy").open()
