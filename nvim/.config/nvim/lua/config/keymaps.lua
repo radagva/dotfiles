@@ -42,5 +42,14 @@ map("v", ">", ">gv", opts({}))
 
 -- buffers
 map("n", "<leader>bd", "<cmd>bdelete<CR>", opts({ desc = "Delete current buffer" }))
+map("n", "<leader>bo", function()
+	local bufs = vim.api.nvim_list_bufs()
+	local current_buf = vim.api.nvim_get_current_buf()
+	for _, i in ipairs(bufs) do
+		if i ~= current_buf then
+			vim.api.nvim_buf_delete(i, {})
+		end
+	end
+end, opts({ desc = "Delete all buffers but current" }))
 map("n", "<S-l>", "<cmd>bnext<CR>", opts({ desc = "Go to next buffer" }))
 map("n", "<S-h>", "<cmd>bprev<CR>", opts({ desc = "Go to prev buffer" }))
