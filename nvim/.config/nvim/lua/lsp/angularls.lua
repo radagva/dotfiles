@@ -1,4 +1,6 @@
-local on_attach = function(_, _) end
+local on_attach = function(_, _)
+	require("lspconfig").angularls.setup({})
+end
 
 return {
 	on_attach = on_attach,
