@@ -35,6 +35,13 @@ return {
 			desc = "Git Blame Line",
 		},
 		{
+			"<leader>gl",
+			function()
+				Snacks.lazygit.log()
+			end,
+			desc = "Git Blame Line",
+		},
+		{
 			"<leader>ocp",
 			function()
 				require("minty.huefy").open()
@@ -62,7 +69,7 @@ return {
 		{
 			"<leader>sc",
 			function()
-				require("fzf-lua").files({ cwd = "~/.dotfiles", cmd = "fd --hidden --exclude .git" })
+				require("fzf-lua").files({ cwd = "~/.dotfiles", cmd = "fd --type f --hidden --exclude .git" })
 			end,
 			desc = "Search into dotfiles",
 		},
@@ -79,6 +86,19 @@ return {
 				require("fzf-lua").live_grep()
 			end,
 			desc = "Resume previous search",
+		},
+		{
+			"<leader>c",
+			function() end,
+			desc = "Code",
+		},
+		{
+			"<leader>cr",
+			function()
+				return ":IncRename " .. vim.fn.expand("<cword>")
+			end,
+			-- expr = true,
+			desc = "Rename Symbol",
 		},
 	},
 }

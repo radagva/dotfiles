@@ -13,6 +13,9 @@ map({ "n", "i" }, "<C-s>", "<cmd>w<CR><Esc>", opts({}))
 -- for better copying and pasting
 map("n", "x", '"_x', opts({}))
 map("v", "p", '"_dP', opts({}))
+map("n", "vag", "ggvG$", opts({ desc = "Copy file content", silent = false }))
+map("n", "yag", "ggyG", opts({ desc = "Copy file content", silent = false }))
+map("n", "dag", "ggdG", opts({ desc = "Copy file content", silent = false }))
 
 -- for finding and moving up and down
 map("n", "<C-d>", "<C-d>zz", opts({}))

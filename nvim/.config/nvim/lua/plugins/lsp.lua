@@ -27,6 +27,7 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
+			"saghen/blink.cmp",
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"folke/lazydev.nvim",
@@ -51,6 +52,8 @@ return {
 				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 			}
 
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
+
 			for _, value in ipairs(ensure_installed) do
 				local server = servers[value]
 
@@ -64,11 +67,12 @@ return {
 					-- for diagnosis
 					map("n", "[d", vim.diagnostic.goto_prev, opts({ silent = false, desc = "go to prev diagnosis" }))
 					map("n", "]d", vim.diagnostic.goto_next, opts({ silent = false, desc = "go to next diagnosis" }))
-					map("n", "gd", vim.lsp.buf.definition, opts({}))
-					map("n", "gD", vim.lsp.buf.declaration, opts({}))
-					map("n", "gi", vim.lsp.buf.implementation, opts({}))
-					map("n", "<leader>ca", vim.lsp.buf.code_action, opts({}))
-					map("n", "gr", vim.lsp.buf.references, opts({}))
+					map("n", "gd", require("fzf-lua").lsp_definitions, opts({}))
+					map("n", "gD", require("fzf-lua").lsp_declarations, opts({}))
+					map("n", "gi", require("fzf-lua").lsp_implementations, opts({}))
+					-- map("n", "<leader>ca", vim.lsp.buf.code_action, opts({}))
+					map("n", "<leader>ca", require("fzf-lua").lsp_code_actions, opts({}))
+					map("n", "gr", require("fzf-lua").lsp_references, opts({}))
 
 					if server.on_attach then
 						server.on_attach(_, bufnr)
@@ -78,6 +82,7 @@ return {
 				lspconfig[value].setup(spread(server)({
 					on_attach = on_attach,
 					handlers = handlers,
+					capabilities = capabilities,
 				}))
 			end
 

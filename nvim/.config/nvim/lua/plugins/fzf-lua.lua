@@ -31,6 +31,9 @@ return {
 
 		return {
 			actions = actions,
+			files = {
+				prompt = "Files❯ ",
+			},
 		}
 	end,
 }
