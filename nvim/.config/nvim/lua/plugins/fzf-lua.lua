@@ -32,7 +32,13 @@ return {
 		return {
 			actions = actions,
 			files = {
-				prompt = "Files❯ ",
+				prompt = "Files aa❯ ",
+				formatter = "path.filename_first",
+			},
+			winopts = {
+				preview = {
+					layout = "vertical",
+				},
 			},
 		}
 	end,
