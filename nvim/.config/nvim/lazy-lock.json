@@ -32,6 +32,7 @@
   "plenary.nvim": { "branch": "master", "commit": "3707cdb1e43f5cea73afb6037e6494e7ce847a66" },
   "rose-pine": { "branch": "main", "commit": "42f0724e0bca9f57f0bcfa688787c37b8d4befe8" },
   "snacks.nvim": { "branch": "main", "commit": "1a5a0871c822e5de8e69c10bb1d6cb3dfc2f5c86" },
+  "tailwind-tools": { "branch": "master", "commit": "0862805c3c0d8a8d61ec1baffc79b9fbf5578d82" },
   "telescope.nvim": { "branch": "0.1.x", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
   "toggleterm.nvim": { "branch": "main", "commit": "e76134e682c1a866e3dfcdaeb691eb7b01068668" },
   "trouble.nvim": { "branch": "main", "commit": "bac1d9a9f51eecf4424b6ca8675db5a170fe572b" },

@@ -87,18 +87,5 @@ return {
 			end,
 			desc = "Resume previous search",
 		},
-		{
-			"<leader>c",
-			function() end,
-			desc = "Code",
-		},
-		{
-			"<leader>cr",
-			function()
-				return ":IncRename " .. vim.fn.expand("<cword>")
-			end,
-			-- expr = true,
-			desc = "Rename Symbol",
-		},
 	},
 }

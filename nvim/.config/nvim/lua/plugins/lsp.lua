@@ -9,6 +9,7 @@ local servers = {
 	vtsls = vtsls,
 	angularls = angularls,
 	lua_ls = lua_ls,
+	gopls = {},
 	cssls = {},
 	emmet_ls = {},
 	jsonls = {},
@@ -64,14 +65,14 @@ return {
 
 					-- For help
 					map("n", "K", vim.lsp.buf.hover)
+
 					-- for diagnosis
 					map("n", "[d", vim.diagnostic.goto_prev, opts({ silent = false, desc = "go to prev diagnosis" }))
 					map("n", "]d", vim.diagnostic.goto_next, opts({ silent = false, desc = "go to next diagnosis" }))
-					map("n", "gd", require("fzf-lua").lsp_definitions, opts({}))
-					map("n", "gD", require("fzf-lua").lsp_declarations, opts({}))
-					map("n", "gi", require("fzf-lua").lsp_implementations, opts({}))
-					-- map("n", "<leader>ca", vim.lsp.buf.code_action, opts({}))
-					map("n", "<leader>ca", require("fzf-lua").lsp_code_actions, opts({}))
+					map("n", "gd", vim.lsp.buf.definition, opts({}))
+					map("n", "gD", vim.lsp.buf.declaration, opts({}))
+					map("n", "gi", vim.lsp.buf.implementation, opts({}))
+					map("n", "<leader>ca", vim.lsp.buf.code_action, opts({}))
 					map("n", "gr", require("fzf-lua").lsp_references, opts({}))
 
 					if server.on_attach then
