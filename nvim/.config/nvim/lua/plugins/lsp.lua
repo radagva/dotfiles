@@ -29,8 +29,7 @@ return {
 				vtsls = vtsls,
 				angularls = angularls,
 				pylsp = pylsp,
-        sqlls = {},
-				-- kulala_ls = {},
+				sqlls = {},
 				cssls = {},
 				emmet_ls = {},
 				jsonls = {},
@@ -102,6 +101,31 @@ return {
 				pattern = {
 					[".*%.component%.html"] = "htmlangular", -- Sets the filetype to `htmlangular` if it matches the pattern
 					-- [".*%.component%.css"] = "cssangular", -- Sets the filetype to `htmlangular` if it matches the pattern
+				},
+			})
+
+			vim.diagnostic.config({
+				virtual_text = false,
+				float = {
+					header = false,
+					border = "rounded",
+					focusable = true,
+				},
+			})
+		end,
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		requires = {
+			"williamboman/mason.nvim",
+		},
+		config = function()
+			require("mason-tool-installer").setup({
+				ensure_installed = {
+					"prettierd",
+					"black",
+					"isort",
+					"stylua",
 				},
 			})
 		end,
