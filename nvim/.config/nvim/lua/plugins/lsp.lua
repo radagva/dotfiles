@@ -24,12 +24,13 @@ return {
 			local pylsp = require("lsp.pylsp")
 
 			local servers = {
+				lua_ls = lua_ls,
 				html = html,
 				vtsls = vtsls,
 				angularls = angularls,
 				pylsp = pylsp,
-				lua_ls = lua_ls,
-				gopls = {},
+        sqlls = {},
+				-- kulala_ls = {},
 				cssls = {},
 				emmet_ls = {},
 				jsonls = {},
@@ -37,6 +38,10 @@ return {
 			}
 
 			local ensure_installed = vim.tbl_keys(servers or {})
+
+			require("mason-lspconfig").setup({
+				ensure_installed = ensure_installed,
+			})
 
 			local border = {
 				{ "🭽", "FloatBorder" },
@@ -82,15 +87,15 @@ return {
 					end
 				end
 
-				if value == "angularls" then
-					lspconfig.angularls.setup(server)
-				else
-					lspconfig[value].setup(spread(server)({
-						on_attach = on_attach,
-						handlers = handlers,
-						capabilities = capabilities,
-					}))
-				end
+				-- if value == "angularls" then
+				-- lspconfig.angularls.setup(server)
+				-- else
+				lspconfig[value].setup(spread(server)({
+					on_attach = on_attach,
+					handlers = handlers,
+					capabilities = capabilities,
+				}))
+				-- end
 			end
 
 			vim.filetype.add({
