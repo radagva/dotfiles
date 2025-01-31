@@ -1,23 +1,3 @@
-local spread = require("config.utils").spread
-local vtsls = require("lsp.vtsls")
-local angularls = require("lsp.angularls")
-local lua_ls = require("lsp.lua_ls")
-local html = require("lsp.html")
-
-local servers = {
-	html = html,
-	vtsls = vtsls,
-	angularls = angularls,
-	lua_ls = lua_ls,
-	gopls = {},
-	cssls = {},
-	emmet_ls = {},
-	jsonls = {},
-	yamlls = {},
-}
-
-local ensure_installed = vim.tbl_keys(servers or {})
-
 return {
 	{
 		"williamboman/mason.nvim",
@@ -35,6 +15,28 @@ return {
 		},
 		config = function()
 			local lspconfig = require("lspconfig")
+
+			local spread = require("config.utils").spread
+			local vtsls = require("lsp.vtsls")
+			local angularls = require("lsp.angularls")
+			local lua_ls = require("lsp.lua_ls")
+			local html = require("lsp.html")
+			local pylsp = require("lsp.pylsp")
+
+			local servers = {
+				html = html,
+				vtsls = vtsls,
+				angularls = angularls,
+				pylsp = pylsp,
+				lua_ls = lua_ls,
+				gopls = {},
+				cssls = {},
+				emmet_ls = {},
+				jsonls = {},
+				yamlls = {},
+			}
+
+			local ensure_installed = vim.tbl_keys(servers or {})
 
 			local border = {
 				{ "🭽", "FloatBorder" },
@@ -80,11 +82,15 @@ return {
 					end
 				end
 
-				lspconfig[value].setup(spread(server)({
-					on_attach = on_attach,
-					handlers = handlers,
-					capabilities = capabilities,
-				}))
+				if value == "angularls" then
+					lspconfig.angularls.setup(server)
+				else
+					lspconfig[value].setup(spread(server)({
+						on_attach = on_attach,
+						handlers = handlers,
+						capabilities = capabilities,
+					}))
+				end
 			end
 
 			vim.filetype.add({

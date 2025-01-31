@@ -1,15 +1,15 @@
+local on_attach = function(_, _)
+	vim.keymap.set("n", "<leader>cv", "<cmd>VenvSelect<cr>", { desc = "Open python venv selector", noremap = true })
+end
+
 return {
+	on_attach = on_attach,
+	filetypes = { "python" },
 	settings = {
 		pylsp = {
 			plugins = {
-				pyflakes = { enabled = false },
-				pycodestyle = { enabled = false },
-				autopep8 = { enabled = false },
-				yapf = { enabled = false },
-				mccabe = { enabled = false },
-				pylsp_mypy = { enabled = false },
-				pylsp_black = { enabled = false },
-				pylsp_isort = { enabled = false },
+				black = { enabled = true },
+				isort = { enabled = true, profile = "black" },
 			},
 		},
 	},

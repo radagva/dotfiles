@@ -42,18 +42,18 @@ return {
 			desc = "Git Blame Line",
 		},
 		{
-			"<leader>ocp",
+			"<leader>cocp",
 			function()
 				require("minty.huefy").open()
 			end,
 			desc = "Open color picker",
 		},
 		{
-			"<leader>ocs",
+			"<leader>cocs",
 			function()
 				require("minty.shades").open()
 			end,
-			desc = "Open color shades",
+			desc = "Open color shades picker",
 		},
 		-- FZF
 		{
@@ -86,6 +86,12 @@ return {
 				require("fzf-lua").live_grep()
 			end,
 			desc = "Resume previous search",
+		},
+		-- UI effects,
+		{
+			"<leader>u",
+			function() end,
+			desc = "UI/UX",
 		},
 	},
 }

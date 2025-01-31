@@ -12,4 +12,5 @@ vim.o.expandtab = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.cursorline = true
+vim.opt.fillchars = { eob = " " }
 -- vim.o.hlsearch = false

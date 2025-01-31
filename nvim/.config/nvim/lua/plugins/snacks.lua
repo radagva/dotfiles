@@ -2,6 +2,9 @@ return {
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
+	keys = {
+		{ "<leader>n", ":lua require('snacks').notifier.show_history()<cr>", desc = "Notifications History" },
+	},
 	opts = {
 		notifier = {},
 		lazygit = {},
