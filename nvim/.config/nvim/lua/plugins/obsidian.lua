@@ -43,7 +43,7 @@ return {
 			},
 		},
 		picker = {
-			name = "fzf-lua",
+			-- name = "fzf-lua",
 			note_mappings = {
 				-- Create a new note from your query.
 				new = "<C-x>",

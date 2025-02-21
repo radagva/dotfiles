@@ -21,19 +21,37 @@ return {
 			local angularls = require("lsp.angularls")
 			local lua_ls = require("lsp.lua_ls")
 			local html = require("lsp.html")
-			local pylsp = require("lsp.pylsp")
 
 			local servers = {
 				lua_ls = lua_ls,
 				html = html,
 				vtsls = vtsls,
+				eslint = {},
 				angularls = angularls,
-				pylsp = pylsp,
+				graphql = {},
+				pyright = {},
+				tailwindcss = {},
 				sqlls = {},
 				cssls = {},
 				emmet_ls = {},
 				jsonls = {},
 				yamlls = {},
+				clangd = {},
+				ruff = {
+					on_attach = function(_, _)
+						vim.keymap.set(
+							"n",
+							"<leader>cv",
+							"<cmd>VenvSelect<cr>",
+							{ desc = "Open python venv selector", noremap = true }
+						)
+					end,
+					init_options = {
+						settings = {
+							args = {},
+						},
+					},
+				},
 			}
 
 			local ensure_installed = vim.tbl_keys(servers or {})
@@ -61,9 +79,7 @@ return {
 
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-			for _, value in ipairs(ensure_installed) do
-				local server = servers[value]
-
+			local create_on_attach = function(server, extra)
 				local on_attach = function(_, bufnr)
 					local opts = spread({ noremap = true, silent = true, buffer = bufnr })
 
@@ -84,17 +100,51 @@ return {
 					if server.on_attach then
 						server.on_attach(_, bufnr)
 					end
+
+					if extra ~= nil then
+						extra()
+					end
 				end
 
-				-- if value == "angularls" then
-				-- lspconfig.angularls.setup(server)
-				-- else
+				return on_attach
+			end
+
+			for _, value in ipairs(ensure_installed) do
+				local server = servers[value]
+
+				local on_attach = create_on_attach(server)
+
 				lspconfig[value].setup(spread(server)({
 					on_attach = on_attach,
 					handlers = handlers,
 					capabilities = capabilities,
 				}))
-				-- end
+			end
+
+			local local_servers = {
+				"kulala_ls",
+				"sourcekit",
+			}
+
+			for _, lsp in ipairs(local_servers) do
+				if lspconfig[lsp] ~= nil then
+					if lspconfig[lsp].setup ~= nil then
+						lspconfig[lsp].setup({
+							on_attach = create_on_attach(lspconfig[lsp], function()
+								if lsp == "kulala_ls" then
+									vim.keymap.set("n", "<C-r>", function()
+										require("kulala").run()
+									end, { silent = true })
+								end
+							end),
+							capabilities = capabilities,
+							handlers = handlers,
+							cmd = lsp == "sourcekit" and { vim.trim(vim.fn.system("xcrun -f sourcekit-lsp")) } or nil,
+						})
+					else
+						vim.notify("LSP server " .. lsp .. " does not have a setup function", vim.log.levels.ERROR)
+					end
+				end
 			end
 
 			vim.filetype.add({
@@ -104,13 +154,26 @@ return {
 				},
 			})
 
+			vim.filetype.add({
+				extension = {
+					["http"] = "http",
+				},
+			})
+
 			vim.diagnostic.config({
-				virtual_text = false,
+				virtual_text = true,
 				float = {
 					header = false,
 					border = "rounded",
 					focusable = true,
 				},
+			})
+
+			vim.api.nvim_set_hl(0, "NormalFloat", {
+				link = "none",
+			})
+			vim.api.nvim_set_hl(0, "FloatBorder", {
+				bg = "none",
 			})
 		end,
 	},

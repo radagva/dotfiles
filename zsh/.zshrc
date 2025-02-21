@@ -120,6 +120,9 @@ alias check-port='f() { lsof -i tcp:$1 };f'
 # to quickly upload files to a temporary cloud disk
 alias upload='f() { curl bashupload.com -T $1 };f'
 
+# for game dev with lua
+alias love="/Applications/love.app/Contents/MacOS/love"
+
 # for live reload GO projects
 # alias air='$(go env GOPATH)/bin/air'
 
@@ -154,3 +157,4 @@ export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"
 export PATH="/opt/homebrew/lib/ruby/gems/3.1.0/bin:$PATH"
 
 . "$HOME/.local/bin/env"
+

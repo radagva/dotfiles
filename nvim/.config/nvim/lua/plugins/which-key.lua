@@ -93,5 +93,22 @@ return {
 			function() end,
 			desc = "UI/UX",
 		},
+		{
+			"<leader>R",
+			function() end,
+			desc = "Kulala/REST",
+		},
+		{
+			"<leader>Rs",
+			function()
+				require("kulala").run()
+			end,
+			desc = "Execute request",
+		},
+		{
+			"<leader>fr",
+			"<cmd>GrugFar<cr>",
+			desc = "Find and Replace",
+		},
 	},
 }

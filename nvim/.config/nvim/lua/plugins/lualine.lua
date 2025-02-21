@@ -27,10 +27,16 @@ return {
 			},
 		},
 		sections = {
-			lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
-			lualine_b = { "filename", "diagnostics", "diff", "branch" },
+			lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
+			lualine_b = { "diagnostics", "diff", "branch" },
 			lualine_c = {
 				"%=", --[[ add your center compoentnts here in place of this comment ]]
+				{
+					"filename",
+					separator = { left = "", right = "" },
+					color = { fg = "#282828", bg = "#EA6962" },
+					padding = 1,
+				},
 			},
 			lualine_x = {},
 			lualine_y = { "filetype", "progress" },

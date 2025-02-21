@@ -10,18 +10,10 @@ return {
 		},
 		signature = { enabled = true },
 		sources = {
-			-- add vim-dadbod-completion to your completion providers
 			default = { "lsp", "path", "snippets", "buffer", "dadbod" },
 			providers = {
 				dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
 			},
 		},
-		-- sources = {
-		-- 	default = { "lsp", "path", "snippets", "buffer" },
-		-- },
-		-- completion = {
-		-- 	list = { selection = { preselect = true, auto_insert = true } },
-		-- },
 	},
-	-- opts_extend = { "sources.default" },
 }
